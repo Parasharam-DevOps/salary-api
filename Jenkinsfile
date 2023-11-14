@@ -4,7 +4,17 @@ pipeline {
     stage("Git Checkout") {
       steps {
         script {
-          git branch: 'main', credentialsId: 'shreya0522', url: 'https://github.com/shreya0522/aws-terraform-final.git'
+          git branch: 'main', credentialsId: 'pipeline-cred', url: 'https://github.com/shreya0522/salary-api.git'
         }
       }
     }
+
+    stage("Test") {
+      steps {
+        script {
+            mvn test
+        }
+       }
+     }
+   }
+}
