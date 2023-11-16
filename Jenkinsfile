@@ -18,8 +18,6 @@ pipeline {
         stage("Bug Analysis ") {
             steps {
                script {
-                dir('salary-api')
-                 sh 'mvn clean'
                  sh 'mvn compile'
                  sh 'mvn spotbugs:spotbugs'
                  sh 'mvn site'
