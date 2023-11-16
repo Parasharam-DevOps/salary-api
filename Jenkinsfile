@@ -24,7 +24,19 @@ pipeline {
                }
             }
         }
-
+        stage('Publish HTML Report') {
+            steps {
+                script {
+                    publishHTML([
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'target/site',
+                        reportFiles: 'spotbugs.html',
+                        reportName: 'SpotBugs Report'
+                    ])
+                }
+            }
+        }
       }
     }
-
