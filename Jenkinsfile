@@ -1,42 +1,19 @@
-
-pipeline {
-    agent any
-
-    tools {
-       maven 'maven'
-    }
-
-    stages {
-        stage("Git Checkout") {
-            steps {
-                script {
-                    git branch: 'main', url: 'https://github.com/shreya0522/salary-api.git'
+      pipeline {
+                agent any
+                tools {
+                    maven "mvn"
+                }
+                stages {
+                    stage('Checkout') {
+                        steps {
+                            git branch: 'main', url: 'https://github.com/Parasharam-DevOps/salary-api.git'
+                        }
+                    }
+                    stage('Test') {
+                        steps {
+                            echo "Executing Java Unit Testing"
+                            sh 'mvn test'
+                        }
+                    }
                 }
             }
-        }
-
-        stage("Bug Analysis ") {
-            steps {
-               script {
-                 sh 'mvn compile'
-                 sh 'mvn spotbugs:spotbugs'
-                 sh 'mvn site'
-               }
-            }
-        }
-        stage('Publish HTML Report') {
-            steps {
-                script {
-                    publishHTML([
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'target/site',
-                        reportFiles: 'spotbugs.html',
-                        reportName: 'SpotBugs Report'
-                    ])
-                }
-            }
-        }
-      }
-    }
